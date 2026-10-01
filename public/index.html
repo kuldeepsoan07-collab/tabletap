@@ -2,43 +2,74 @@
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>TableTap</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#eef3f4;--card:#fff;--ink:#10222b;--mut:#62767f;--ln:#d6e0e3;--acc:#0b6e6e;--hi:#f2a900;--ok:#2b8a3e;--bad:#b42318}
-@media(prefers-color-scheme:dark){:root{--bg:#0e1a20;--card:#162830;--ink:#e8f0f2;--mut:#93a8b0;--ln:#27404a;--acc:#3cc4c4}}
+:root{--bg:#eef3ef;--card:#fff;--ink:#14231c;--mut:#5f7268;--ln:#dbe5de;--acc:#0f5f45;--onacc:#fff;--hi:#ff9f1c;--ok:#1f9d55;--bad:#c2410c;--soft:#e3f1ea;--sh:0 1px 2px rgba(16,40,30,.06),0 6px 18px rgba(16,40,30,.07)}
+@media(prefers-color-scheme:dark){:root{--bg:#0c1713;--card:#13241d;--ink:#e9f3ee;--mut:#98b0a5;--ln:#243a31;--acc:#35c28a;--onacc:#05261a;--soft:#183228;--sh:none}}
 *{box-sizing:border-box}
-body{margin:0;font:15px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink)}
-header{display:flex;justify-content:space-between;align-items:center;padding:12px 18px;background:var(--ink);color:var(--bg)}
-header a{color:inherit;text-decoration:none;margin-left:16px}
-header .logo{font:700 20px Georgia,serif;margin:0}
-main{max-width:980px;margin:0 auto;padding:18px}
-h1{font:700 28px Georgia,serif;margin:6px 0 14px}
-h2{font-size:17px;margin:20px 0 8px}
-.card{background:var(--card);border:1px solid var(--ln);border-radius:10px;padding:14px;margin:10px 0}
-.row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--ln)}
-.g{flex:1}.mut{color:var(--mut);font-size:13px}
-.dot{width:14px;height:14px;border:2px solid;border-radius:3px;display:inline-grid;place-items:center;flex:none}
-.dot:after{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
-.dot.v{color:#2b8a3e}.dot.n{color:#b42318}
+body{margin:0;font:16px/1.5 "DM Sans",system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink)}
+header{position:sticky;top:0;z-index:5;display:flex;justify-content:space-between;align-items:center;padding:10px 18px;background:#0b3a2b;color:#fff}
+header nav{display:flex;gap:6px}
+header nav a{color:#fff;text-decoration:none;padding:6px 14px;border-radius:99px;font-weight:500;font-size:14px}
+header nav a:hover{background:rgba(255,255,255,.16)}
+.logo{display:flex;align-items:center;gap:10px;color:#fff;text-decoration:none;font:700 22px Fraunces,Georgia,serif}
+.logo:before{content:"";width:24px;height:24px;border-radius:50%;background:var(--hi);box-shadow:inset 0 0 0 6px #0b3a2b,inset 0 0 0 8px var(--hi)}
+main{max-width:900px;margin:0 auto;padding:18px 16px 60px}
+h1,h2{font-family:Fraunces,Georgia,serif;letter-spacing:-.01em}
+h1{font-size:30px;margin:6px 0 14px}
+h2{font-size:21px;margin:26px 0 8px}
+.card{background:var(--card);border:1px solid var(--ln);border-radius:14px;padding:16px;margin:12px 0;box-shadow:var(--sh)}
+.card h2{margin-top:0}
+.hero{display:flex;gap:18px;align-items:center;background:#0b3a2b;color:#fff;border-radius:18px;padding:20px;margin:4px 0 6px}
+.hero .tn{flex:none;width:76px;height:76px;border-radius:50%;background:var(--hi);color:#2b1a00;display:grid;place-items:center;font:700 40px Fraunces,Georgia,serif}
+.hero h1{margin:0;color:#fff;font-size:28px}.hero p{margin:4px 0 0;opacity:.85}
+.row{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--ln)}
+.row:last-child{border-bottom:0}
+#menu .row{background:var(--card);border:1px solid var(--ln);border-radius:14px;padding:12px 14px;margin:8px 0;box-shadow:var(--sh)}
+#menu .g .mut{color:var(--acc);font-weight:700;font-size:15px}
+.g{flex:1;min-width:0}.mut{color:var(--mut);font-size:14px}
+.dot{width:16px;height:16px;border:2px solid;border-radius:4px;display:inline-grid;place-items:center;flex:none}
+.dot:after{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.dot.v{color:#1f9d55}.dot.n{color:#c2410c}
 button,input,select{font:inherit;color:inherit}
-button{cursor:pointer;border:1px solid var(--ln);background:var(--card);border-radius:8px;padding:7px 12px}
-button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--hi);outline-offset:1px}
-button.pri{background:var(--acc);border-color:var(--acc);color:#fff;font-weight:600;width:100%;margin-top:10px;padding:10px}
-input,select{padding:7px 9px;border:1px solid var(--ln);border-radius:8px;background:var(--card)}
-.qty{display:flex;align-items:center;gap:8px}.qty button{width:34px;height:34px;padding:0}.qty span{min-width:18px;text-align:center}
-.cr{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:8px 0}.cr input{flex:1;min-width:160px}
-table{width:100%;border-collapse:collapse;margin-top:8px}td,th{padding:6px 0;text-align:left}td:last-child,th:last-child{text-align:right}
-tr.tot td{font-weight:700;font-size:17px;border-top:2px solid var(--ink)}
-.chip{padding:2px 8px;border-radius:99px;font-size:12px;font-weight:600;background:var(--ln)}
-.chip.New{background:var(--hi);color:#000}.chip.Preparing{background:#9ad1d1;color:#000}.chip.Ready{background:var(--ok);color:#fff}.chip.Served{background:var(--ln)}
-.ord{padding:4px 0}
-.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
-.k button.pri{margin-top:8px}.note{color:var(--bad);font-style:italic;font-size:13px}
-.tables{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:10px}
-.tbl{display:flex;flex-direction:column;padding:14px;font-weight:600}.tbl small{font-weight:400;color:var(--mut)}
-.tbl.busy{border-color:var(--hi);border-width:2px}.tbl.sel{background:var(--ink);color:var(--bg)}.tbl.sel small{color:var(--bg)}
+button{cursor:pointer;border:1px solid var(--ln);background:var(--card);border-radius:10px;padding:8px 14px;font-weight:500}
+button:hover{border-color:var(--acc)}
+button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{outline:3px solid var(--hi);outline-offset:2px}
+button.pri{background:var(--acc);border-color:var(--acc);color:var(--onacc);font-weight:700;width:100%;margin-top:12px;padding:13px;font-size:16px}
+button.pri:hover{filter:brightness(1.08)}
+.add{border:2px solid var(--acc);color:var(--acc);font-weight:700;border-radius:99px;padding:6px 22px}
+.add:hover{background:var(--acc);color:var(--onacc)}
+.qty{display:flex;align-items:center;gap:6px;background:var(--soft);border-radius:99px;padding:3px}
+.qty button{border:0;background:var(--acc);color:var(--onacc);border-radius:50%;width:32px;height:32px;padding:0;font-weight:700;font-size:18px;line-height:1}
+.qty span{min-width:22px;text-align:center;font-weight:700}
+input,select{padding:9px 11px;border:1px solid var(--ln);border-radius:10px;background:var(--card)}
+.cr{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0}.cr input{flex:1;min-width:170px}
+#cart .card{border:2px solid var(--acc)}
+#cart .pri{position:sticky;bottom:12px;box-shadow:0 8px 22px rgba(0,0,0,.25)}
+table{width:100%;border-collapse:collapse;margin-top:8px}
+td,th{padding:7px 0;text-align:left;border-bottom:1px dashed var(--ln)}td:last-child,th:last-child{text-align:right}
+tr.tot td{font:700 20px Fraunces,Georgia,serif;border-top:2px solid var(--ink);border-bottom:0;padding-top:10px}
+.chip{display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:700;background:var(--ln)}
+.chip.New{background:var(--hi);color:#2b1a00}.chip.Preparing{background:#0e7490;color:#fff}.chip.Ready{background:var(--ok);color:#fff}
+.ord{padding:5px 0}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.colh{display:flex;justify-content:space-between;align-items:center;padding:9px 14px;border-radius:12px;color:#fff;font-size:17px;margin:0 0 8px}
+.colh span{background:rgba(255,255,255,.28);border-radius:99px;padding:0 11px;font-family:"DM Sans",sans-serif;font-weight:700}
+.colh.New{background:#c77700}.colh.Preparing{background:#0e7490}.colh.Ready{background:var(--ok)}
+.card.k{border-left:6px solid var(--ln)}.k.New{border-left-color:var(--hi)}.k.Preparing{border-left-color:#0e7490}.k.Ready{border-left-color:var(--ok)}
+.tno{display:block;font:700 24px Fraunces,Georgia,serif}
+.note{color:var(--bad);font-style:italic;font-size:14px}
+.tables{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:12px}
+.tbl{display:flex;flex-direction:column;align-items:flex-start;padding:14px;border-radius:14px;background:var(--soft);border:2px solid transparent;font:700 17px Fraunces,Georgia,serif}
+.tbl small{font:500 14px "DM Sans",sans-serif;color:var(--mut)}
+.tbl.busy{background:var(--card);border-color:var(--hi);box-shadow:var(--sh)}
+.tbl.sel{background:var(--acc);color:var(--onacc);border-color:var(--acc)}.tbl.sel small{color:var(--onacc)}
 .f{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-.home a{display:block;padding:14px;margin:8px 0;background:var(--card);border:1px solid var(--ln);border-radius:10px;color:inherit;text-decoration:none}
-@media(prefers-reduced-motion:no-preference){button{transition:background .15s}}
+.home a{display:block;padding:16px;margin:10px 0;background:var(--card);border:1px solid var(--ln);border-radius:14px;color:inherit;text-decoration:none;box-shadow:var(--sh)}
+.home a:hover,.tables a.card:hover{border-color:var(--acc)}
+.tables a.card{margin:0;font:700 17px Fraunces,Georgia,serif;padding:18px 10px}
+@media(max-width:520px){h1{font-size:25px}.hero{padding:16px}.hero .tn{width:62px;height:62px;font-size:32px}.hero h1{font-size:22px}}
+@media(prefers-reduced-motion:no-preference){button{transition:background .15s,border-color .15s}}
 </style></head>
 <body>
 <header><a class="logo" href="/">TableTap</a><nav><a href="/kitchen">Kitchen</a><a href="/cashier">Cashier</a><a href="/admin">Menu</a></nav></header>
@@ -59,7 +90,7 @@ const billTable = b => `<table>${b.lines.map(l => `<tr><td>${l.qty} × ${esc(l.n
 async function customer(n) {
   let menu = await api('/api/menu'), cart = {};
   if (n > menu.tables) { app.innerHTML = `<h1>Table ${n} doesn't exist</h1><p class="mut">Scan the QR code on your table again.</p>`; return; }
-  app.innerHTML = `<h1>Table ${n}</h1><div id="menu"></div><div id="cart"></div><h2>Your orders and bill</h2><div id="bill"></div>`;
+  app.innerHTML = `<div class="hero"><div class="tn">${n}</div><div><h1>Table ${n}</h1><p>Pick your dishes and place the order. We will bring it to your table.</p></div></div><div id="menu"></div><div id="cart"></div><h2>Your orders and bill</h2><div id="bill"></div>`;
   const byId = id => menu.items.find(i => i.id == id);
   window.chg = (id, d) => { const c = cart[id] || (cart[id] = { qty: 0, note: '' }); c.qty += d; if (c.qty <= 0) delete cart[id]; drawMenu(); drawCart(); };
   window.note = (id, v) => { cart[id].note = v; };
@@ -74,7 +105,7 @@ async function customer(n) {
       const its = menu.items.filter(i => i.catId == c.id);
       return its.length ? `<h2>${esc(c.name)}</h2>` + its.map(i => `<div class="row"><span class="dot ${i.veg ? 'v' : 'n'}" title="${i.veg ? 'Veg' : 'Non-veg'}"></span>
         <div class="g"><b>${esc(i.name)}</b><div class="mut">${rs(i.price)}</div></div>
-        ${i.available ? `<div class="qty"><button onclick="chg(${i.id},-1)" aria-label="Remove one">−</button><span>${cart[i.id]?.qty || 0}</span><button onclick="chg(${i.id},1)" aria-label="Add one">+</button></div>` : '<span class="mut">Unavailable</span>'}</div>`).join('') : '';
+        ${i.available ? (cart[i.id] ? `<div class="qty"><button onclick="chg(${i.id},-1)" aria-label="Remove one">−</button><span>${cart[i.id].qty}</span><button onclick="chg(${i.id},1)" aria-label="Add one">+</button></div>` : `<button class="add" onclick="chg(${i.id},1)">Add</button>`) : '<span class="mut">Unavailable</span>'}</div>`).join('') : '';
     }).join('');
   }
   function drawCart() {
@@ -100,8 +131,8 @@ function kitchen() {
   window.adv = async id => { await api('/api/orders/' + id + '/advance', 'POST'); load(); };
   async function load() {
     const os = await api('/api/kitchen');
-    app.innerHTML = `<h1>Kitchen</h1><div class="cols">${S.map(s => { const list = os.filter(o => o.status === s); return `<div><h2>${s} (${list.length})</h2>${list.map(o => `
-      <div class="card k"><b>Table ${o.table}</b> <span class="mut">#${o.id} · ${new Date(o.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+    app.innerHTML = `<h1>Kitchen</h1><div class="cols">${S.map(s => { const list = os.filter(o => o.status === s); return `<div><h2 class="colh ${s}">${s} <span>${list.length}</span></h2>${list.map(o => `
+      <div class="card k ${s}"><span class="tno">Table ${o.table}</span> <span class="mut">#${o.id} · ${new Date(o.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
       ${o.items.map(i => `<div>${i.qty} × ${esc(i.name)}${i.note ? `<div class="note">“${esc(i.note)}”</div>` : ''}</div>`).join('')}
       <button class="pri" onclick="adv(${o.id})">${NEXT[s]}</button></div>`).join('') || '<p class="mut">Nothing here.</p>'}</div>`; }).join('')}</div>`;
   }
@@ -132,8 +163,10 @@ async function admin() {
   window.del = run(id => confirm('Delete this item?') && api('/api/items/' + id, 'DELETE'));
   window.addCat = run(() => api('/api/categories', 'POST', { name: $('#cname').value }));
   window.addItem = run(() => api('/api/items', 'POST', { name: $('#iname').value, price: +$('#iprice').value, catId: +$('#icat').value, veg: $('#iveg').checked }));
+  window.setTables = run(() => api('/api/tables', 'POST', { count: +$('#tcount').value }));
   function draw() {
     app.innerHTML = `<h1>Menu</h1>
+    <div class="card"><h2>Tables</h2><div class="f"><input id="tcount" type="number" min="1" max="50" value="${menu.tables}" style="width:100px" aria-label="Number of tables"><button onclick="setTables()">Save tables</button></div></div>
     <div class="card"><h2>Add category</h2><div class="f"><input id="cname" placeholder="Category name"><button onclick="addCat()">Add category</button></div></div>
     <div class="card"><h2>Add item</h2><div class="f"><input id="iname" placeholder="Item name"><input id="iprice" type="number" min="0" placeholder="Price" style="width:100px">
       <select id="icat">${menu.cats.map(c => `<option value="${c.id}">${esc(c.name)}</option>`).join('')}</select>
@@ -149,10 +182,11 @@ async function admin() {
 }
 
 // ---------- Home + router ----------
-function home() {
+async function home() {
+  const { tables } = await api('/api/menu');
   app.innerHTML = `<h1>TableTap</h1><div class="home"><a href="/kitchen"><b>Kitchen screen</b><div class="mut">Move orders through New, Preparing, Ready, Served</div></a>
   <a href="/cashier"><b>Cashier</b><div class="mut">Bills, payments and today's sales</div></a><a href="/admin"><b>Menu management</b><div class="mut">Categories, items, prices, availability</div></a></div>
-  <h2>Customer links (put these in the table QR codes)</h2><div class="tables">${[1,2,3,4,5,6,7,8].map(n => `<a class="card" href="/table/${n}" style="text-align:center;color:inherit;text-decoration:none">Table ${n}</a>`).join('')}</div>`;
+  <h2>Customer links (put these in the table QR codes)</h2><div class="tables">${Array.from({length: tables}, (_, i) => i + 1).map(n => `<a class="card" href="/table/${n}" style="text-align:center;color:inherit;text-decoration:none">Table ${n}</a>`).join('')}</div>`;
 }
 const p = location.pathname, m = p.match(/^\/table\/(\d+)/);
 if (m) customer(+m[1]); else if (p === '/kitchen') kitchen(); else if (p === '/cashier') cashier(); else if (p === '/admin') admin(); else home();

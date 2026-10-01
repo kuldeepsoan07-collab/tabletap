@@ -50,6 +50,13 @@ app.delete('/api/items/:id', (q, r) => {
   db.items = db.items.filter(i => i.id != q.params.id); save(); r.json({ ok: true });
 });
 
+app.post('/api/tables', (q, r) => {
+  const n = parseInt(q.body.count);
+  if (!(n >= 1 && n <= 50)) return bad(r, 'Tables must be between 1 and 50');
+  if (db.orders.some(o => !o.paid && o.table > n)) return bad(r, 'Some removed tables still have unpaid orders');
+  db.tables = n; save(); r.json({ tables: n });
+});
+
 // ---- Orders ----
 app.post('/api/orders', (q, r) => {
   const t = +q.body.table;
